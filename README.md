@@ -1,25 +1,63 @@
-# ELEC5305 Project: Audio Signal Processing and Instrument Recognition
+# Project Proposal: Advanced Audio Signal Processing and Recognition
 
-## Objective  
-Design a reproducible pipeline for instrument recognition using the NSynth dataset (flute, guitar, vocal). The project explores preprocessing, feature extraction, and classification to evaluate the impact of signal representations on recognition accuracy.  
+## Overview  
+This project extends basic laboratory experiments into a full research-oriented system for audio signal processing and recognition. While the initial lab demonstrated preprocessing, feature extraction, and simple classification, this project upgrades the workflow by integrating dataset augmentation, advanced feature representations, and modern machine learning models. The goal is to transform a classroom-level exercise into a scalable project with practical and research value.  
 
-## Background  
-Audio signals are non-stationary and require short-time analysis. Techniques such as pre-emphasis, framing, FFT, and STFT help extract meaningful features. This project demonstrates how classical methods link to modern classification tasks in audio processing.  
+---
 
-## Methodology  
-1. **Dataset** – Select flute, guitar, vocal samples from NSynth.  
-2. **Preprocessing** – Apply pre-emphasis, framing, and windowing.  
-3. **Time-Frequency Analysis** – FFT and STFT for spectral insights.  
-4. **Feature Extraction** – ZCR, Energy, Entropy, MFCCs, Harmonic Ratio, F0.  
-5. **Classification** – ECOC-SVM for instrument recognition (~80% accuracy).  
-6. **FM Synthesis** – Generate synthetic woodwind-like signals for augmentation.  
+## Objectives  
+- Develop an **enhanced pipeline** for audio classification that goes beyond traditional lab settings.  
+- Integrate **data augmentation and synthesis** to address dataset imbalance and improve robustness.  
+- Explore **advanced time-frequency representations**, such as mel-spectrograms and chroma features.  
+- Compare **classical machine learning methods** with **deep learning architectures** for classification.  
+- Design a **prototype application** capable of performing real-time recognition.  
+
+---
+
+## Proposed Methodology  
+1. **Dataset Expansion**  
+   - Move beyond three basic categories by including a wider range of instruments or vocal styles.  
+   - Implement augmentation techniques such as pitch shifting, time stretching, and additive noise.  
+
+2. **Preprocessing & Feature Engineering**  
+   - Traditional preprocessing (pre-emphasis, framing, windowing).  
+   - Advanced features: MFCCs + delta coefficients, spectral centroid, chroma, spectral contrast.  
+   - Time-frequency visualization: mel-spectrograms and constant-Q transform (CQT).  
+
+3. **Modeling Approaches**  
+   - **Classical Models**: SVM, Random Forests, Gradient Boosting.  
+   - **Deep Learning**:  
+     - 1D CNNs on raw waveforms.  
+     - 2D CNNs (ResNet, VGG-like) on spectrograms.  
+     - Hybrid CRNN models for sequential learning.  
+
+4. **FM Synthesis & Generative Methods**  
+   - Extend FM synthesis into a controlled **data generation tool**.  
+   - Investigate using generative models (e.g., GANs or VAEs) to create synthetic training samples.  
+
+5. **Evaluation & Deployment**  
+   - Perform cross-validation and confusion matrix analysis.  
+   - Compare classical vs deep models in terms of accuracy, robustness, and computation cost.  
+   - Build a lightweight **real-time recognition demo** with MATLAB App Designer or Python (PyQT/Streamlit).  
+
+---
 
 ## Expected Outcomes  
-- End-to-end pipeline for audio instrument recognition.  
-- Evaluation of feature contributions and classification results.  
-- Visualizations (spectrograms, t-SNE plots) showing class separability.  
+- A reproducible project that highlights how **core signal processing** integrates with **modern machine learning**.  
+- Improved recognition accuracy compared to baseline lab results, especially under noisy or augmented conditions.  
+- Visualization of feature spaces and decision boundaries that provide insight into model behavior.  
+- A deployable prototype demonstrating real-time audio recognition.  
+
+---
 
 ## Future Work  
-- Expand dataset with more instruments.  
-- Apply CNNs on spectrograms for higher accuracy.  
-- Real-time demo via MATLAB App Designer or Python GUI.  
+- Extend from **instrument recognition** to **speech emotion recognition** or **speaker identification**.  
+- Explore transfer learning with pre-trained audio models (e.g., YAMNet, OpenL3).  
+- Investigate interpretability techniques to explain which frequency regions influence model predictions.  
+- Deploy optimized models on **edge devices** for low-latency applications.  
+
+---
+
+## Impact  
+This upgraded project serves as a bridge between **theory and application**. It not only consolidates knowledge of signal processing fundamentals but also demonstrates how advanced techniques and models can be used in modern music information retrieval, speech technology, and real-time interactive systems.  
+
