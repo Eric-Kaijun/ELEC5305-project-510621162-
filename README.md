@@ -1,69 +1,51 @@
-# Advanced Audio Signal Processing and Recognition  
-
----
+# dvanced Audio Signal Processing and Recognition  
 
 ## Overview  
-This project extends initial lab experiments into a comprehensive research-oriented system for audio signal processing and recognition. It integrates advanced time-frequency analysis, richer feature sets, and modern machine learning methods, along with synthesis and augmentation for robustness. The goal is to transform a classroom-level exercise into a scalable project with practical and research value.  
+This project explores advanced methods for audio signal processing and recognition. It builds upon baseline experiments using STFT and MFCC features with an ECOC-SVM classifier and extends the framework with **wavelet transform (CWT)** and **modulation spectrum analysis** to overcome STFT’s time-frequency resolution limitations.  
+
+The goal is to design a reproducible pipeline that integrates **classical DSP** and **modern machine learning**, improving recognition accuracy, robustness under noisy conditions, and enabling a lightweight real-time prototype.  
 
 ---
 
 ## Objectives  
-- Build a reproducible pipeline for audio recognition, integrating preprocessing, feature extraction, and classification.  
-- Introduce **wavelet transform (CWT)** and **modulation spectrum analysis** to overcome the resolution limitations of STFT.  
-- Enrich features with **time-domain, frequency-domain, and time-frequency representations**.  
-- Apply **FM synthesis and data augmentation** to mitigate dataset imbalance and improve robustness.  
-- Compare **classical machine learning models** with **deep learning architectures**.  
-- Develop a **real-time recognition prototype** for interactive demonstration.  
+- Develop a reproducible audio recognition pipeline.  
+- Introduce **wavelet transform (CWT)** and **modulation spectrum features** for non-stationary signal analysis.  
+- Enrich feature sets with time-domain, frequency-domain, and advanced time-frequency descriptors.  
+- Apply **FM synthesis and data augmentation** to improve robustness and class balance.  
+- Compare **classical ML methods (SVM, Random Forests)** with **deep learning models (CNNs, CRNNs)**.  
+- Deliver a **real-time recognition demo**.  
 
 ---
 
-## Methodology  
-1. **Dataset Preparation & Augmentation**  
-   - Extend to a broader range of instruments and voice samples.  
-   - Use data augmentation (noise addition, pitch shifting, time stretching) and **FM synthesis** to generate additional training samples.  
-
-2. **Preprocessing & Time-Frequency Analysis**  
-   - Perform resampling, pre-emphasis filtering, framing, and windowing.  
-   - Compare window functions (Hamming, Hanning, Blackman) and FFT lengths.  
-   - Apply **STFT** to obtain spectrograms, and use **CWT** to analyze non-stationary signals, comparing scalograms with spectrograms.  
-   - Incorporate **modulation spectrum analysis** (via 2D Welch method) to capture rhythmic and envelope-related patterns.  
-
-3. **Feature Extraction**  
-   - **Time-domain**: RMS energy, short-term energy entropy, zero-crossing rate.  
-   - **Frequency-domain**: spectral centroid, spectral spread, spectral flatness, spectral rolloff, spectral flux.  
-   - **Time-frequency**: Mel-Spectrogram, MFCCs and delta coefficients.  
-   - **High-level**: modulation spectrum descriptors, harmonic ratio, fundamental frequency (F0).  
-
-4. **Modeling & Classification**  
-   - **Classical methods**: Support Vector Machines (SVM), Random Forests, Gradient Boosting.  
-   - **Deep learning methods**:  
-     - 1D CNNs for raw waveform processing.  
-     - 2D CNNs (e.g., ResNet, VGG) for spectrogram classification.  
-     - CRNNs to capture sequential dependencies in audio data.  
-
-5. **Evaluation & Prototype Development**  
-   - Evaluate with cross-validation, confusion matrices, and accuracy metrics.  
-   - Compare classical and deep models in terms of accuracy, robustness, and computational cost.  
-   - Build a **real-time recognition prototype** (MATLAB App Designer or Python GUI) for live audio input and classification.  
+## 🛠 Methodology  
+1. **Dataset**: Public datasets (e.g., NSynth, UrbanSound8K) + FM-synthesized signals.  
+2. **Preprocessing**: Resampling, pre-emphasis, framing, windowing.  
+3. **Time-Frequency Analysis**: STFT spectrograms, wavelet scalograms, modulation spectrum analysis.  
+4. **Feature Extraction**:  
+   - Time-domain: RMS, energy entropy, ZCR  
+   - Frequency-domain: centroid, rolloff, flatness, flux  
+   - Time-frequency: MFCCs, Mel-spectrogram, CQT  
+   - Advanced: wavelet coefficients, modulation descriptors, F0, harmonic ratio  
+5. **Modeling**:  
+   - Classical: SVM, Random Forest, Gradient Boosting  
+   - Deep Learning: 1D CNNs (raw waveforms), 2D CNNs (spectrograms/scalograms), CRNNs  
+6. **Evaluation**: Accuracy, F1-score, confusion matrix, robustness under noise.  
+7. **Prototype**: Real-time recognition demo (MATLAB App Designer / Python GUI).  
 
 ---
 
 ## Expected Outcomes  
-- A complete and reproducible audio classification framework.  
-- **Improved recognition accuracy** and robustness under noisy and augmented conditions.  
-- Comparative insights into **STFT vs CWT** and **traditional vs modulation-based features**.  
-- A working **real-time demonstration system** showcasing the potential of audio signal processing in real-world scenarios.  
+- A complete and reproducible **end-to-end audio recognition framework**.  
+- Improved recognition accuracy and robustness compared to MFCC-only baselines.  
+- Comparative insights between **STFT vs CWT**, **traditional vs modulation-based features**.  
+- A real-time prototype demonstrating practical audio classification.  
 
 ---
 
-## Future Work  
-- Extend applications to **speech emotion recognition** or **speaker identification**.  
-- Apply **transfer learning** with pre-trained audio models (e.g., YAMNet, OpenL3).  
-- Explore **explainability methods** to highlight frequency regions that influence model predictions.  
-- Optimize models for **embedded or edge device deployment**, enabling low-latency real-time recognition.  
-
----
-
-## Significance  
-This project demonstrates how fundamental audio signal processing concepts can be integrated with advanced feature engineering and modern machine learning to create practical recognition systems. By incorporating **wavelet analysis, modulation spectrum, synthesis-based augmentation, and real-time prototyping**, it advances from **theoretical exercises → engineering solutions → real-world applications**, contributing both academic and practical value.  
+## Timeline (Weeks 6–13)  
+- **Weeks 6–7**: Literature review, dataset collection  
+- **Weeks 8–9**: Preprocessing & implementation of STFT, wavelet, modulation analysis  
+- **Weeks 10–11**: Feature extraction, model training, baseline evaluation  
+- **Week 12**: Optimization, robustness testing  
+- **Week 13**: Final evaluation, real-time prototype, GitHub documentation  
 
