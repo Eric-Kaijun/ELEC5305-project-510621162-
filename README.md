@@ -1,4 +1,4 @@
-# dvanced Audio Signal Processing and Recognition  
+# Advanced Audio Signal Processing and Recognition  
 
 ## Overview  
 This project explores advanced methods for audio signal processing and recognition. It builds upon baseline experiments using STFT and MFCC features with an ECOC-SVM classifier and extends the framework with **wavelet transform (CWT)** and **modulation spectrum analysis** to overcome STFT’s time-frequency resolution limitations.  
