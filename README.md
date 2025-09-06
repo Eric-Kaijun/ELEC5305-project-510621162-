@@ -17,7 +17,7 @@ The goal is to design a reproducible pipeline that integrates **classical DSP** 
 
 ---
 
-## 🛠 Methodology  
+## Methodology  
 1. **Dataset**: Public datasets (e.g., NSynth, UrbanSound8K) + FM-synthesized signals.  
 2. **Preprocessing**: Resampling, pre-emphasis, framing, windowing.  
 3. **Time-Frequency Analysis**: STFT spectrograms, wavelet scalograms, modulation spectrum analysis.  
