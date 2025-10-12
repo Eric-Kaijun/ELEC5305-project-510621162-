@@ -1,6 +1,6 @@
 # Advanced Audio Signal Processing and Recognition Using Wavelet and Modulation Spectrum Features  
 
-## 📖 Overview  
+##  Overview  
 This repository presents an **advanced audio recognition framework** that integrates **digital signal processing (DSP)** and **machine learning** to classify musical instruments from short recordings. Traditional **STFT/MFCC-based approaches** suffer from fixed time–frequency resolution, which limits their ability to capture non-stationary signals with overlapping harmonics.  
 
 To overcome these challenges, this project introduces:  
@@ -12,7 +12,7 @@ The system targets instrument recognition (e.g., **flute, guitar, vocal**) and a
 
 ---
 
-## 🎯 Research Objectives  
+##  Research Objectives  
 - Develop a **reproducible end-to-end pipeline** for audio recognition.  
 - Incorporate **CWT** and **modulation spectrum descriptors** to overcome STFT’s limitations.  
 - Enrich feature sets with **low-level, time–frequency, and auditory-inspired descriptors**.  
@@ -22,7 +22,7 @@ The system targets instrument recognition (e.g., **flute, guitar, vocal**) and a
 
 ---
 
-## 🧩 Methodology  
+##  Methodology  
 
 ### 1. Dataset  
 - **NSynth**, **UrbanSound8K**, and other open-source corpora.  
@@ -70,7 +70,7 @@ The system targets instrument recognition (e.g., **flute, guitar, vocal**) and a
 
 ---
 
-## 🔮 Future Work  
+##  Future Work  
 - **Data**: Multi-crop ensembling, hard-example mining, MixUp/CutMix.  
 - **Features**: Multi-view fusion (STFT+CQT+Modulation), transient-aware branches.  
 - **Models**: Hierarchical classification (family → instrument), Transformer-based CRNN.  
@@ -78,7 +78,7 @@ The system targets instrument recognition (e.g., **flute, guitar, vocal**) and a
 
 ---
 
-## 📊 Expected Outcomes  
+## Expected Outcomes  
 - A **fully documented instrument recognition framework** integrating STFT, wavelet, and modulation-based features.  
 - **Demonstrable improvements** over conventional MFCC-only baselines.  
 - Comparative insights into the trade-offs between **classical ML** and **deep learning**.  
@@ -86,15 +86,11 @@ The system targets instrument recognition (e.g., **flute, guitar, vocal**) and a
 
 ---
 
-## 📅 Timeline (Weeks 6–13)  
+##  Timeline (Weeks 6–13)  
 - **Weeks 6–7**: Literature review, dataset collection.  
 - **Weeks 8–9**: Preprocessing & implementation of STFT, CWT, modulation spectrum.  
 - **Weeks 10–11**: Feature extraction, model training (SVM, CNN, CRNN), baseline evaluation.  
 - **Week 12**: Optimization, robustness testing.  
 - **Week 13**: Final evaluation, prototype development, documentation.  
 
----
-
-## 📜 License  
-This project is released under the **MIT License**.  
 
