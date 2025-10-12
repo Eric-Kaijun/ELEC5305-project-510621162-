@@ -58,7 +58,7 @@ The system targets instrument recognition (e.g., **flute, guitar, vocal**) and a
 
 ---
 
-## 🔬 Current Progress  
+## Current Progress  
 - **Dataset**: NSynth (10 classes, stratified splits, 16 kHz).  
 - **Models**:  
   - CNN (ResNet-style) achieves ~80% accuracy.  
