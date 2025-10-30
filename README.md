@@ -1,96 +1,92 @@
-# Advanced Audio Signal Processing and Recognition Using Wavelet and Modulation Spectrum Features  
+# Multi-View Audio Feature Fusion and Robust Instrument Recognition
 
-##  Overview  
-This repository presents an **advanced audio recognition framework** that integrates **digital signal processing (DSP)** and **machine learning** to classify musical instruments from short recordings. Traditional **STFT/MFCC-based approaches** suffer from fixed time–frequency resolution, which limits their ability to capture non-stationary signals with overlapping harmonics.  
+## Overview
+This project develops an advanced **instrument recognition system** that integrates **multi-view feature representations** with both **statistical** and **deep learning** models.  
+The system targets instruments such as **flute, guitar, and vocal**, and is designed to perform robustly under noisy and reverberant conditions.
 
-To overcome these challenges, this project introduces:  
-- **Continuous Wavelet Transform (CWT)** for adaptive multi-resolution analysis.  
-- **Modulation Spectrum Features** to capture slower envelope and rhythm-related variations.  
-- **Data augmentation and FM synthesis** for improved robustness.  
-
-The system targets instrument recognition (e.g., **flute, guitar, vocal**) and aims to achieve **high accuracy, robustness under noise, and real-time applicability**.  
-
----
-
-##  Research Objectives  
-- Develop a **reproducible end-to-end pipeline** for audio recognition.  
-- Incorporate **CWT** and **modulation spectrum descriptors** to overcome STFT’s limitations.  
-- Enrich feature sets with **low-level, time–frequency, and auditory-inspired descriptors**.  
-- Employ **FM synthesis and augmentation** (pitch shifting, tempo perturbation, reverberation, noise injection) to improve robustness.  
-- Compare **classical ML models** (SVM, Random Forest) with **deep learning architectures** (CNN, CRNN).  
-- Deliver a **lightweight real-time prototype** demonstrating interactive instrument recognition.  
+Key highlights:
+- **Multi-view features**: STFT, CQT, wavelet scalograms, cochlear-inspired filterbanks, and modulation spectra.
+- **Hybrid modeling**: Statistical baselines (GMM, HMM) fused with deep models (CNN, CRNN, Transformer).
+- **Robust augmentation**: SpecAugment++, pitch/tempo perturbation, noise/reverberation injection, MixUp/CutMix.
+- **Hierarchical classification**: Family-level → instrument-level.
+- **Interactive prototype**: Real-time demo with visualization.
 
 ---
 
-##  Methodology  
+## Motivation
+Traditional STFT/MFCC methods face challenges in:
+- Limited time–frequency resolution, leading to confusion between similar instruments.
+- Lack of perceptual modeling of rhythm, modulation, and resonance.
+- Poor robustness to noise, reverberation, and spatial variability.
 
-### 1. Dataset  
-- **NSynth**, **UrbanSound8K**, and other open-source corpora.  
-- FM-synthesized timbres for augmentation.  
-
-### 2. Preprocessing  
-- Resampling to 16 kHz, normalization, mono conversion.  
-- Fixed-length cropping (~2.5s) with SpecAugment (time/frequency masking + noise).  
-
-### 3. Time–Frequency Analysis  
-- **STFT spectrograms** as baseline.  
-- **Wavelet scalograms (CWT)** for adaptive resolution.  
-- **Modulation spectra** via 2D FFT on overlapping spectrogram patches.  
-
-### 4. Feature Extraction  
-- **Low-level descriptors**: RMS energy, ZCR, spectral centroid, rolloff, flux.  
-- **Time–frequency features**: MFCCs, Mel-spectrogram, Constant-Q Transform (CQT).  
-- **Advanced features**: Wavelet coefficients, modulation descriptors, ERB filter banks, LPC coefficients.  
-
-### 5. Modeling and Classification  
-- **Classical ML**: SVM, Random Forests.  
-- **Deep Learning**:  
-  - 1D CNNs on raw waveforms.  
-  - 2D CNNs (ResNet, VGG) on spectrograms/scalograms.  
-  - CRNNs (CNN + GRU/LSTM) for temporal aggregation.  
-
-### 6. Evaluation  
-- Metrics: Accuracy, F1-score, confusion matrix.  
-- Robustness under additive noise and augmentation.  
-
-### 7. Prototype  
-- Real-time recognition demo via **MATLAB App Designer** or **Python GUI (PyQt/Streamlit)**.  
+This project addresses these gaps with **advanced signal processing, perceptually aligned features, and robust learning frameworks**.
 
 ---
 
-## Current Progress  
-- **Dataset**: NSynth (10 classes, stratified splits, 16 kHz).  
-- **Models**:  
-  - CNN (ResNet-style) achieves ~80% accuracy.  
-  - CRNN with bidirectional GRU enhances temporal modeling.  
-  - SVM baseline is reliable for 3-class categorization (music/other/speech).  
-- **Challenges**:  
-  - Misclassification among **guitar–keyboard–mallet** and **bass–brass** due to overlapping spectral patterns.  
-  - Uneven per-class performance (some classes >0.9 accuracy, others ~0.5).  
+## Methodology
+
+### Dataset & Augmentation
+- Dataset: NSynth and extended corpora, resampled at 16 kHz.
+- Augmentations:
+  - Pitch-shift ±1–2 semitones, tempo ±5–8%.
+  - SpecAugment++ with multiple masks.
+  - MixUp / CutMix (targeting confusing pairs).
+  - Additive noise (20 dB / 10 dB SNR), BRIR/HRIR convolution for reverberation.
+
+### Feature Extraction
+- **Time–frequency**: STFT spectrograms, CQT, wavelet scalograms.
+- **Auditory-inspired**: Cochlear ERB filterbanks + Δ/ΔΔ.
+- **Modulation**: 2D modulation spectra, tempograms.
+- **Parametric**: LPC coefficients, harmonic envelope descriptors.
+- **Spatial**: ILD/ITD features derived from HRIR/BRIR.
+
+### Modeling
+- **Statistical baselines**: GMM, HMM.
+- **Deep learning**:
+  - CNNs (ResNet variants).
+  - CRNN (CNN + Bi-GRU/LSTM).
+  - CNN + Transformer encoder.
+- **Fusion**:
+  - Multi-channel feature concatenation (STFT+CQT+ERB+Modulation).
+  - Late-fusion with statistical models.
+- **Hierarchical classification**:
+  - Stage 1: Instrument family.
+  - Stage 2: Fine-grained instrument type.
+
+### Evaluation
+- **Metrics**: Accuracy, macro F1, per-class recall, hierarchical confusion matrices.
+- **Robustness**: Tested at different SNRs, reverberation times (T60 = 0.2–0.6s), and spatial directions.
+- **Perceptual**: segSNR, Harmonics-to-Noise Ratio (HNR), cochlear correlation.
+- **Efficiency**: Real-time factor (RTF) comparison for lightweight vs. deep models.
 
 ---
 
-##  Future Work  
-- **Data**: Multi-crop ensembling, hard-example mining, MixUp/CutMix.  
-- **Features**: Multi-view fusion (STFT+CQT+Modulation), transient-aware branches.  
-- **Models**: Hierarchical classification (family → instrument), Transformer-based CRNN.  
-- **Training**: Focal Loss, Cosine LR schedule, Stochastic Weight Averaging (SWA).  
+## Expected Outcomes
+- Overall accuracy ≥ **88–90%** (from ~80% baseline).
+- +8–12pt macro-F1 improvement for confusable pairs (e.g., guitar–keyboard–mallet).
+- ≥85% accuracy retained under 10 dB SNR and moderate reverberation.
+- Comparative insights between statistical and deep models, single-view vs multi-view features.
+- Real-time prototype demo showcasing system performance.
 
 ---
 
-## Expected Outcomes  
-- A **fully documented instrument recognition framework** integrating STFT, wavelet, and modulation-based features.  
-- **Demonstrable improvements** over conventional MFCC-only baselines.  
-- Comparative insights into the trade-offs between **classical ML** and **deep learning**.  
-- A **lightweight real-time prototype** showcasing practical audio classification under noisy and real-world conditions.  
+## Timeline
+- **Week 6–7**: Data preparation; implement feature extraction (CQT, wavelet, cochlear, modulation, HRIR).
+- **Week 8–9**: Train baselines (SVM, GMM, CNN); test augmentations.
+- **Week 10–11**: Implement CRNN, Transformer; hierarchical classification; fusion experiments.
+- **Week 12**: Robustness and perceptual metric evaluation.
+- **Week 13**: Prototype app, final report, GitHub release.
 
 ---
 
-##  Timeline (Weeks 6–13)  
-- **Weeks 6–7**: Literature review, dataset collection.  
-- **Weeks 8–9**: Preprocessing & implementation of STFT, CWT, modulation spectrum.  
-- **Weeks 10–11**: Feature extraction, model training (SVM, CNN, CRNN), baseline evaluation.  
-- **Week 12**: Optimization, robustness testing.  
-- **Week 13**: Final evaluation, prototype development, documentation.  
+## References
+1. Quatieri, T. F. *Discrete-Time Speech Signal Processing*. Pearson, 2002.  
+2. Phan, D. T. “Reduce computational complexity for continuous wavelet transform in acoustic recognition using hop size.” *ISETC 2024*. IEEE.  
+3. Mirzaei, S., Jazani, I. K. “Acoustic scene classification with multi-temporal modulation spectrogram features.” *Multimedia Tools and Applications*, 2023.  
+4. Hossan, M. A., Memon, S., Gregory, M. A. “A novel approach for MFCC feature extraction.” *ICSPCS 2010*.  
+5. Chang, C. C., Lin, C. J. “LIBSVM: A library for support vector machines.” *ACM TIST*, 2011.  
+
+
+
 
 
