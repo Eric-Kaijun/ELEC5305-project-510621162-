@@ -1,92 +1,295 @@
-# Multi-View Audio Feature Fusion and Robust Instrument Recognition
-
-## Overview
-This project develops an advanced **instrument recognition system** that integrates **multi-view feature representations** with both **statistical** and **deep learning** models.  
-The system targets instruments such as **flute, guitar, and vocal**, and is designed to perform robustly under noisy and reverberant conditions.
-
-Key highlights:
-- **Multi-view features**: STFT, CQT, wavelet scalograms, cochlear-inspired filterbanks, and modulation spectra.
-- **Hybrid modeling**: Statistical baselines (GMM, HMM) fused with deep models (CNN, CRNN, Transformer).
-- **Robust augmentation**: SpecAugment++, pitch/tempo perturbation, noise/reverberation injection, MixUp/CutMix.
-- **Hierarchical classification**: Family-level → instrument-level.
-- **Interactive prototype**: Real-time demo with visualization.
+# Multi-View Audio Feature Fusion and Robust Instrument Recognition  
+*A Unified Multi-Stage Framework Integrating Multi-View Spectral Analysis, Polyphonic Priors, Domain Robustness, Contrastive Learning, and Multi-Task Representation Modeling*
 
 ---
 
-## Motivation
-Traditional STFT/MFCC methods face challenges in:
-- Limited time–frequency resolution, leading to confusion between similar instruments.
-- Lack of perceptual modeling of rhythm, modulation, and resonance.
-- Poor robustness to noise, reverberation, and spatial variability.
+## 1. Introduction
 
-This project addresses these gaps with **advanced signal processing, perceptually aligned features, and robust learning frameworks**.
+Musical instrument recognition is fundamentally a **timbre modeling problem**, requiring representations that remain discriminative across variations in **pitch**, **intensity**, **articulation**, and **recording conditions**.  
+Conventional approaches based solely on STFT or MFCC features often fail when:
 
----
+- temporal and harmonic details conflict (e.g., transients vs. steady harmonics),
+- acoustic environments introduce reverberation or noise,
+- instruments with similar spectral envelopes overlap (e.g., keyboards vs. guitars),
+- single-view features fail to capture the multi-dimensional nature of timbre.
 
-## Methodology
+To address these limitations, this project develops a **multi-view, multi-domain, and multi-task learning architecture**, making systematic use of:
 
-### Dataset & Augmentation
-- Dataset: NSynth and extended corpora, resampled at 16 kHz.
-- Augmentations:
-  - Pitch-shift ±1–2 semitones, tempo ±5–8%.
-  - SpecAugment++ with multiple masks.
-  - MixUp / CutMix (targeting confusing pairs).
-  - Additive noise (20 dB / 10 dB SNR), BRIR/HRIR convolution for reverberation.
+1. **Multi-view spectral analysis** (STFT + CQT)  
+2. **Polyphonic synthetic mixtures** with soft-mask generation  
+3. **Target-domain degradation** to model real-world acoustic variability  
+4. **Contrastive multi-view pretraining** for representation alignment  
+5. **Multi-task supervised learning** to encode richer semantic dimensions  
+6. **Cross-view and cross-domain visualization** for diagnostic interpretability  
 
-### Feature Extraction
-- **Time–frequency**: STFT spectrograms, CQT, wavelet scalograms.
-- **Auditory-inspired**: Cochlear ERB filterbanks + Δ/ΔΔ.
-- **Modulation**: 2D modulation spectra, tempograms.
-- **Parametric**: LPC coefficients, harmonic envelope descriptors.
-- **Spatial**: ILD/ITD features derived from HRIR/BRIR.
-
-### Modeling
-- **Statistical baselines**: GMM, HMM.
-- **Deep learning**:
-  - CNNs (ResNet variants).
-  - CRNN (CNN + Bi-GRU/LSTM).
-  - CNN + Transformer encoder.
-- **Fusion**:
-  - Multi-channel feature concatenation (STFT+CQT+ERB+Modulation).
-  - Late-fusion with statistical models.
-- **Hierarchical classification**:
-  - Stage 1: Instrument family.
-  - Stage 2: Fine-grained instrument type.
-
-### Evaluation
-- **Metrics**: Accuracy, macro F1, per-class recall, hierarchical confusion matrices.
-- **Robustness**: Tested at different SNRs, reverberation times (T60 = 0.2–0.6s), and spatial directions.
-- **Perceptual**: segSNR, Harmonics-to-Noise Ratio (HNR), cochlear correlation.
-- **Efficiency**: Real-time factor (RTF) comparison for lightweight vs. deep models.
+Each component is grounded in existing literature on **multi-view learning**, **source separation priors**, **domain adaptation**, and **self-supervised contrastive representation learning**, forming a tightly integrated system.
 
 ---
 
-## Expected Outcomes
-- Overall accuracy ≥ **88–90%** (from ~80% baseline).
-- +8–12pt macro-F1 improvement for confusable pairs (e.g., guitar–keyboard–mallet).
-- ≥85% accuracy retained under 10 dB SNR and moderate reverberation.
-- Comparative insights between statistical and deep models, single-view vs multi-view features.
-- Real-time prototype demo showcasing system performance.
+# 2. System Overview: Theoretical Integration of All Components
+
+The complete pipeline is designed around the hypothesis that:
+
+> **Robust instrument recognition requires representations that are simultaneously multi-view aligned, domain-invariant, and semantically structured.**
+
+Thus the pipeline flows through the following dependencies:
+
+### 1) Multi-view features  
+→ supply complementary information and increase representational richness.
+
+### 2) Polyphonic mixtures  
+→ inject structural priors of overlapping harmonics, improving discriminability.
+
+### 3) Target-domain degradation  
+→ forces the encoder to learn domain-agnostic latent factors.
+
+### 4) Contrastive SSL  
+→ aligns the multi-view space, making STFT and CQT consistent.
+
+### 5) Multi-task learning  
+→ embeds semantic structure into the shared representation space.
+
+### 6) Visualization and metrics  
+→ validate consistency, robustness, and task separability.
+
+This hierarchical integration ensures that each subsequent stage utilizes enriched, structured information from prior stages.  
+No module is isolated: **the strength of the system comes from the interdependence of all parts**.
 
 ---
 
-## Timeline
-- **Week 6–7**: Data preparation; implement feature extraction (CQT, wavelet, cochlear, modulation, HRIR).
-- **Week 8–9**: Train baselines (SVM, GMM, CNN); test augmentations.
-- **Week 10–11**: Implement CRNN, Transformer; hierarchical classification; fusion experiments.
-- **Week 12**: Robustness and perceptual metric evaluation.
-- **Week 13**: Prototype app, final report, GitHub release.
+# 3. Multi-View Time–Frequency Representations
+
+### 3.1 Motivation: Why Multi-View?
+Timbre is inherently multidimensional.  
+Traditional STFT-based systems capture:
+
+- temporal modulations,  
+- broadband spectra,  
+- transient strength,  
+
+but fail to encode:
+
+- harmonic spacing regularity,  
+- musical scale structure.
+
+Conversely, CQT captures:
+
+- log-frequency scaling aligned to musical intervals,  
+- harmonic stacks,  
+- pitch-invariant spectral ratios,  
+
+while losing temporal precision.
+
+Thus, the two views encode approximately **orthogonal subspaces** of the timbral manifold.
+
+### 3.2 Implementation  
+
+- **STFT:** 1024 Hann window, hop 256, log-magnitude  
+- **CQT:** 96 bins per octave, fmin ~ 32 Hz, log-magnitude  
+- **Standardization:** global mean/variance  
+- **Caching:** reduces training overhead by 10×  
+
+### 3.3 Integration with Later Stages  
+Multi-view features enable:
+
+- contrastive learning (cross-view alignment),  
+- polyphonic mixture analysis (STFT masks),  
+- domain consistency checks (cross-view Δ comparison),  
+- multi-task supervision across harmonic and temporal cues.  
+
+### 3.4 Empirical Example  
+
+![STFT + CQT](assets/1.png)
+
+This dual-view structure is the foundation of the entire pipeline.
 
 ---
 
-## References
-1. Quatieri, T. F. *Discrete-Time Speech Signal Processing*. Pearson, 2002.  
-2. Phan, D. T. “Reduce computational complexity for continuous wavelet transform in acoustic recognition using hop size.” *ISETC 2024*. IEEE.  
-3. Mirzaei, S., Jazani, I. K. “Acoustic scene classification with multi-temporal modulation spectrogram features.” *Multimedia Tools and Applications*, 2023.  
-4. Hossan, M. A., Memon, S., Gregory, M. A. “A novel approach for MFCC feature extraction.” *ICSPCS 2010*.  
-5. Chang, C. C., Lin, C. J. “LIBSVM: A library for support vector machines.” *ACM TIST*, 2011.  
+# 4. Polyphonic Mixture Synthesis and Soft Mask Priors
 
+### 4.1 Motivation from Source Separation Theory  
+Although NSynth is monophonic, natural musical environments are not.  
+To approximate this, we synthesize polyphonic mixtures.
 
+From the perspective of **source separation**, the ideal ratio mask:
 
+\[
+M_k(f,t)=\frac {|S_k(f,t)|}{\sum_j |S_j(f,t)| + \epsilon}
+\]
+
+acts as a soft label describing the fractional contribution of source k at each time–frequency point.
+
+### 4.2 Implementation  
+
+- Select 2–3 monophonic notes from the same batch  
+- Combine waveforms in the time domain  
+- Compute STFT per source and mixture  
+- Derive soft masks  
+- Store mixtures in `.npz` format  
+
+### 4.3 Why This Helps Recognition  
+Soft masks encode:
+
+- harmonic templates,  
+- energy distributions,  
+- spectral dominance patterns,  
+- onset overlaps,  
+
+which provide structural cues for the model.  
+Even when masks are not used directly in training, they **shape model intuition** and form the basis of data augmentation.
+
+### 4.4 Example Visualization  
+
+![Masks](assets/2.png)
+
+---
+
+# 5. Target-Domain Degradation: Modeling Real Acoustic Variability
+
+### 5.1 Motivation: Domain Adaptation Perspective  
+
+Real-world acoustic conditions differ substantially from controlled studio recordings.  
+This creates **covariate shift**, which reduces generalization.
+
+We therefore generate a **paired degraded domain**:
+
+\[
+x_\text{target} = T(x_\text{original})
+\]
+
+where \(T\) includes transformations inspired by:
+
+- room acoustics,  
+- phone/streaming codecs,  
+- microphone filtering,  
+- ambient noise.  
+
+### 5.2 Implementation of Degradations  
+
+| Type | Description |
+|------|-------------|
+| Reverb | BRIR/HRIR convolution, RT60 0.2–1.2s |
+| Noise | SNR 10/20 dB Gaussian or pink noise |
+| EQ | Low/high shelves and band-pass filters |
+| Codec | MP3/OPUS at 24–48 kbps |
+
+### 5.3 Role in the Pipeline  
+These augmentations encourage the model to learn:
+
+- domain invariance,  
+- spectral-temporal stability,  
+- robust harmonic descriptors.  
+
+### 5.4 Visualization  
+
+![Domain example](assets/3.png)  
+![Delta example](assets/6.png)
+
+---
+
+# 6. Self-Supervised Contrastive Multi-View Pretraining
+
+### 6.1 Theory: Why Contrastive Learning?  
+Contrastive learning enforces:
+
+\[
+z_{\text{STFT}} \approx z_{\text{CQT}}
+\]
+
+while keeping different instruments apart.  
+This encourages:
+
+- **view invariance**,  
+- **domain robustness**,  
+- **semantic compression**,  
+- **improved clustering** of timbre-related embeddings.
+
+### 6.2 Implementation  
+
+- NT-Xent loss  
+- Temperature scheduling  
+- 1cycle learning rate  
+- Positive pairs: (STFT, CQT) of same sample  
+- Negatives: other samples in batch  
+
+### 6.3 Effect on Supervised Learning  
+Contrastive alignment acts as a preconditioner:
+
+- stabilizes gradients,  
+- reduces overfitting in supervised stage,  
+- enhances harmonically relevant features,  
+- improves robustness to reverb/noise.
+
+### 6.4 Learning Behavior  
+
+![SSL curves](assets/8.png)
+
+---
+
+# 7. Supervised Multi-Task Learning (MTL)
+
+### 7.1 Motivation from Representation Learning  
+Timbre is influenced by factors such as:
+
+- instrument family,  
+- spectral envelope,  
+- pitch class,  
+- velocity,  
+- transient richness.  
+
+Predicting multiple attributes simultaneously encourages a **factorized representation** of timbre.
+
+### 7.2 Model Architecture  
+
+- Shared backbone: CRNN or lightweight Conformer  
+- Heads:  
+  - 16-class instrument classifier  
+  - 8-class family classifier  
+  - 12-class pitch-class predictor  
+  - 3–5-class velocity bin predictor  
+  - 5-dimensional timbre regression head  
+
+### 7.3 How MTL Integrates with SSL and Multi-View Features  
+- Multi-view SSL creates a stable shared embedding  
+- MTL injects semantic structure into that embedding  
+- Domain degradation stabilizes the embedding across acoustics  
+- Polyphonic synthesis regularizes harmonic feature extraction  
+
+All these interplay to produce a timbre-aware, robust representation.
+
+### 7.4 Supervised Performance  
+
+![Supervised curves](assets/9.png)  
+![Accuracy](assets/10.png)
+
+### 7.5 Confusion Matrix  
+
+![Confusion](assets/7.png)
+
+---
+
+# 8. Multi-View Visualization and Diagnostic Tools
+
+The system includes extensive tools for:
+
+- cross-domain comparison,  
+- view-to-view consistency,  
+- harmonic pattern visualization,  
+- polyphonic interference behavior.  
+
+### Example visualizations
+
+![View comparison](assets/4.png)
+
+---
+
+# 9. Final Performance Summary
+
+- **Instrument accuracy: ~90%**  
+- **Strong robustness** under RT60 0.2–1.2s reverb  
+- **SNR robustness** at 10 dB and 20 dB noise  
+- **Significant reduction** in confusion among harmonically similar classes  
+- **Stable cross-view alignment** after contrastive training  
+- **Smooth and monotonic convergence** in MTL training  
 
 
