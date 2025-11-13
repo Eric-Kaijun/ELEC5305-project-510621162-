@@ -290,6 +290,24 @@ The system includes extensive tools for:
 - **SNR robustness** at 10 dB and 20 dB noise  
 - **Significant reduction** in confusion among harmonically similar classes  
 - **Stable cross-view alignment** after contrastive training  
-- **Smooth and monotonic convergence** in MTL training  
+- **Smooth and monotonic convergence** in MTL training
+---
+
+# 10.  Conclusion
+
+This project demonstrates that robust musical instrument recognition benefits from the *joint design* of multi-view feature extraction, self-supervised cross-view alignment, polyphonic priors, domain robustness modeling, and multi-task supervision.
+
+The final system is not a simple classifier:
+it is a **holistic timbre modeling framework** that unifies insights from:
+
+- spectral signal processing,
+- psychoacoustics,
+- domain adaptation,
+- contrastive learning,
+- multi-task representation learning,
+- and source separation theory.
+
+The combination of these approaches achieves state-of-the-art robustness and interpretability on the NSynth-small 16-class task.
+
 
 
