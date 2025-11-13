@@ -66,9 +66,10 @@ Together they approximate orthogonal components of timbre.
 - STFT: 1024 Hann window, hop 256  
 - CQT: 96 bins per octave, log-magnitude  
 - Standardization: global mean/variance  
-- Caching for 10× faster training  
+- Caching for ~10× faster training  
 
 ## 3.3 Integration with Later Stages
+
 - paired views enable contrastive alignment  
 - STFT supports polyphonic soft masks  
 - Δ-view comparisons for domain consistency  
@@ -86,9 +87,9 @@ Together they approximate orthogonal components of timbre.
 
 To simulate real-world polyphony, we synthesize mixtures and compute **ideal ratio masks**:
 
-\[
-M_k(f,t) = \frac{|S_k(f,t)|}{\sum_j |S_j(f,t)| + \epsilon}
-\]
+$$
+M_k(f,t) = \frac{|S_k(f,t)|}{\sum_j |S_j(f,t)| + \epsilon}.
+$$
 
 This describes the fractional contribution of each source at every time–frequency bin.
 
@@ -108,7 +109,7 @@ Soft masks encode:
 - partial overlaps  
 - transient interaction patterns  
 
-Strengthening structural invariances learned by the backbone.
+strengthening structural invariances learned by the backbone.
 
 ## 4.4 Visualization
 
@@ -124,25 +125,25 @@ Modeling Real Acoustic Variability
 Real acoustic environments differ from NSynth's clean studio recordings.  
 We simulate paired degraded samples:
 
-\[
-x_\text{target} = T(x_\text{original})
-\]
+$$
+x_\text{target} = T(x_\text{original}),
+$$
 
-where \(T\) models real-world distortions.
+where \(T(\cdot)\) models real-world distortions.
 
 ## 5.2 Types of Degradations
 
 | Category | Description |
 |---------|-------------|
 | Reverb | BRIR/HRIR convolution, RT60 0.2–1.2 s |
-| Noise | 10–20 dB SNR (pink/white noise) |
-| EQ | Low/high shelving filters |
-| Codec | MP3/OPUS (24–48 kbps) |
+| Noise  | 10–20 dB SNR (pink/white noise) |
+| EQ     | Low/high shelving filters |
+| Codec  | MP3/OPUS (24–48 kbps) |
 
 ## 5.3 Role in the Model
 
 - improves domain robustness  
-- stabilizes spectral-temporal cues  
+- stabilizes spectral–temporal cues  
 - encourages domain-invariant latent space  
 
 ## 5.4 Visualizations
@@ -156,11 +157,11 @@ where \(T\) models real-world distortions.
 
 ## 6.1 Theory
 
-SSL enforces alignment:
+SSL enforces alignment between the two views:
 
-\[
-z_{\text{STFT}} \approx z_{\text{CQT}}
-\]
+$$
+z_{\text{STFT}} \approx z_{\text{CQT}},
+$$
 
 while separating different instruments via NT-Xent loss.
 
@@ -174,8 +175,8 @@ Benefits:
 
 - NT-Xent loss  
 - temperature scheduling  
-- positive pair: (STFT, CQT)  
-- negatives: other samples  
+- positive pair: (STFT, CQT) of the same sample  
+- negatives: other samples in the batch  
 
 ## 6.3 SSL Training Behavior
 
@@ -222,17 +223,31 @@ Thus, recognition is formulated as multi-task prediction to enforce a factorized
 
 ---
 
-# 8. Final Performance Summary
+# 8. Multi-View Visualization & Diagnostics
+
+Provides tools for:
+
+- cross-domain consistency checks  
+- view alignment inspection  
+- harmonic-based interpretability  
+
+Example:
+
+![Multi-View Comparison](assets/4.png)
+
+---
+
+# 9. Final Performance Summary
 
 - ~90% accuracy on NSynth-16  
-- strong robustness under RT60 0.2–1.2s reverb  
+- strong robustness under RT60 0.2–1.2 s reverberation  
 - stable performance at 10–20 dB SNR  
 - reduced confusion among harmonically similar instruments  
 - monotonic convergence during SSL and supervised training  
 
 ---
 
-# 9. Conclusion
+# 10. Conclusion
 
 This project presents a unified timbre-learning framework combining:
 
