@@ -1,0 +1,18 @@
+{
+  "bass_electronic": 0,
+  "bass_synthetic": 1,
+  "brass_acoustic": 2,
+  "flute_acoustic": 3,
+  "flute_synthetic": 4,
+  "guitar_acoustic": 5,
+  "guitar_electronic": 6,
+  "keyboard_acoustic": 7,
+  "keyboard_electronic": 8,
+  "keyboard_synthetic": 9,
+  "mallet_acoustic": 10,
+  "organ_electronic": 11,
+  "reed_acoustic": 12,
+  "string_acoustic": 13,
+  "vocal_acoustic": 14,
+  "vocal_synthetic": 15
+}
