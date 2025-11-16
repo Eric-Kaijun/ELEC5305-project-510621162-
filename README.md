@@ -260,6 +260,25 @@ This project presents a unified timbre-learning framework combining:
 
 Together these modules form a **holistic, interpretable, and robust** instrument recognition system capable of handling real-world acoustic challenges.
 
+## How to Run the Project
+
+After downloading or cloning this repository, simply refer to the included documentation file:
+
+**GitHub Link & Guide.pdf**
+
+This file contains the complete step-by-step instructions needed to run the project, including:
+
+- environment setup  
+- dataset preparation (NSynth)  
+- configuration of required files  
+- running the full training pipeline  
+- evaluating the model using `last.pt`  
+- understanding the repository structure  
+
+All necessary steps are clearly described in the PDF.  
+Follow the instructions inside the file, and you will be able to run the entire system without additional configuration.
+
+
 
 
 
